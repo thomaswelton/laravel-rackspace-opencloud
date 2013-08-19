@@ -28,7 +28,10 @@ class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		$this->app['open-cloud'] = $this->app->share(function($app)
+        {
+            return new OpenCloud;
+        });
 	}
 
 	/**

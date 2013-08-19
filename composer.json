@@ -1,23 +1,24 @@
 {
-    "name": "thomaswelton/laravel-rackspace-opencloud",
-    "description": "",
-    "authors": [
+      "name": "thomaswelton/laravel-rackspace-opencloud"
+    , "description": ""
+    , "authors": [
         {
-            "name": "ThomasWelton",
-            "email": "thomaswelton@me.com"
+            "name": "ThomasWelton"
+            , "email": "thomaswelton@me.com"
         }
-    ],
-    "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "4.0.x"
-    },
-    "autoload": {
+    ]
+    , "require": {
+          "php": ">=5.3.0"
+        , "illuminate/support": "4.0.x"
+        , "rackspace/php-opencloud": "dev-master"
+    }
+    , "autoload": {
         "classmap": [
             "src/migrations"
-        ],
-        "psr-0": {
+        ]
+        , "psr-0": {
             "Thomaswelton\\LaravelRackspaceOpencloud": "src/"
         }
-    },
-    "minimum-stability": "dev"
+    }
+    , "minimum-stability": "dev"
 }
