@@ -24,13 +24,38 @@ Alias the OpenCloud facade by adding it to the aliases array in the `app/config/
 )
 ```
 
-# Configuration
+## Configuration
 
 Copy the config file into your project by running
 ```
 php artisan config:publish thomaswelton/laravel-rackspace-opencloud
 ```
 
-Edit the config file to include your username, api key and auth url. The auth URL should be one of
-- https://identity.api.rackspacecloud.com/v2.0/
-- https://lon.identity.api.rackspacecloud.com/v2.0/
+Edit the config file to include your username, api key and region.
+
+# Usage
+
+## Upload to CDN
+
+```php
+OpenCloud::upload($container, $file, $name = null)
+```
+
+- $container - (string) Name of the container to upload into
+- $file - (string / UploadedFile) Path to file, or instance of 'Symfony\Component\HttpFoundation\File\UploadedFile' as returned by Input::file()
+- $name - (string) Optional file name to be used when saving the file to the CDN.
+
+Example:
+```php
+Route::post('/upload', function()
+{
+	if(Input::hasFile('image')){
+		$file = OpenCloud::upload('my-container', Input::file('image'));
+	}
+
+	$cdnUrl = $file->PublicURL();
+	// Do something with $cdnUrl
+
+	return Redirect::to('/upload');
+});
+```

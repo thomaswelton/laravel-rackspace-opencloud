@@ -1,7 +1,7 @@
 <?php
 
 return array(
-	'authUrl' => 'RACKSPACE_AUTH_URL',
+	'region' => 'RACKSPACE_REGION',
 	'username' => 'RACKSPACE_USERNAME',
 	'apiKey' => 'RACKSPACE_API_KEY'
 );
