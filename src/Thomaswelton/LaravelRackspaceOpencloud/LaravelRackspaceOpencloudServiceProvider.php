@@ -36,7 +36,7 @@ class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
 
         $this->app['cdn.sync'] = $this->app->share(function($app)
         {
-            return new CdnSyncCommand;
+            return new Commands\CdnSyncCommand;
         });
 
         $this->app->bind('url', function()

@@ -1,4 +1,4 @@
-<?php namespace Thomaswelton\LaravelRackspaceOpencloud\Commads;
+<?php namespace Thomaswelton\LaravelRackspaceOpencloud\Commands;
 
 use \File;
 use \Str;
@@ -44,7 +44,7 @@ class CdnSyncCommand extends Command {
         $this->info('Start Time: ' . $startTime);
 
         $opencloud = \App::make('open-cloud');
-        $container_name = Config::get('laravel-rackspace-opencloud::container');
+        $container_name = \Config::get('laravel-rackspace-opencloud::container');
 
         // Get directory or file path
 		$path = $this->argument('path');
