@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/thomaswelton/laravel-rackspace-opencloud.png?branch=master)](https://travis-ci.org/thomaswelton/laravel-rackspace-opencloud)
 [![Latest Stable Version](https://poser.pugx.org/thomaswelton/laravel-rackspace-opencloud/v/stable.png)](https://packagist.org/packages/thomaswelton/laravel-rackspace-opencloud)
 [![Total Downloads](https://poser.pugx.org/thomaswelton/laravel-rackspace-opencloud/downloads.png)](https://packagist.org/packages/thomaswelton/laravel-rackspace-opencloud)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/thomaswelton/laravel-rackspace-opencloud/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
