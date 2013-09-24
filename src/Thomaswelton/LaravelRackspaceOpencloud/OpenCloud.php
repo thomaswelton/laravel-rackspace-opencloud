@@ -2,6 +2,7 @@
 
 use \Config;
 use \File;
+use Archive_Tar;
 
 class OpenCloud extends \OpenCloud\Rackspace{
 
@@ -53,6 +54,20 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		}
 	}
 
+    // Create and archive and upload a whole directory
+    // $dir - Directory to upload
+    // $cdnDir - Directory on the CDN to upload to
+    // $dirTrim - Path segments to trim from the dir path when on the CDN
+    public function uploadDir($container, $dir, $cdnDir = '', $dirTrim = ''){
+        $files = File::allFiles($dir);
+        $temp_file = tempnam(sys_get_temp_dir(), 'CDN');
+
+        $tar = new Archive_Tar($temp_file, 'gz');
+        $tar->createModify($files, '', $dirTrim);
+
+        return $this->createDataObject($container, $temp_file, $cdnDir, 'tar.gz');
+    }
+
     public function exisits($container, $file){
         $container = $this->getContainer($container);
         try{
@@ -62,7 +77,7 @@ class OpenCloud extends \OpenCloud\Rackspace{
         }
     }
 
-	public function createDataObject($container, $filePath, $fileName = null)
+	public function createDataObject($container, $filePath, $fileName = null, $extract = null)
 	{
 		if(is_null($fileName)){
 			$fileName = basename($filePath);
@@ -71,7 +86,7 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		$container = $this->getContainer($container);
 
 		$object = $container->DataObject();
-		$object->Create(array('name'=> $fileName), $filePath);
+		$object->Create(array('name'=> $fileName), $filePath, $extract);
 
 		return $object;
 	}

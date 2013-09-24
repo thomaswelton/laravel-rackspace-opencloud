@@ -1,6 +1,7 @@
 <?php namespace Thomaswelton\LaravelRackspaceOpencloud;
 
 use Illuminate\Support\ServiceProvider;
+use Thomaswelton\LaravelRackspaceOpencloud\Commands;
 
 class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
 
@@ -33,12 +34,18 @@ class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
             return new OpenCloud;
         });
 
-        $this->app['cdn.upload'] = $this->app->share(function($app)
+        $this->app['cdn.sync'] = $this->app->share(function($app)
         {
-            return new CdnUploadCommand;
+            return new CdnSyncCommand;
         });
 
-        $this->commands('cdn.upload');
+        $this->app->bind('url', function()
+        {
+            $routes = $this->app['router']->getRoutes();
+            return new UrlGenerator($routes, $this->app['request']);
+        });
+
+        $this->commands('cdn.sync');
 	}
 
 	/**
