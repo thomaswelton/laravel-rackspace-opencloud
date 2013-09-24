@@ -32,6 +32,13 @@ class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
         {
             return new OpenCloud;
         });
+
+        $this->app['cdn.upload'] = $this->app->share(function($app)
+        {
+            return new CdnUploadCommand;
+        });
+
+        $this->commands('cdn.upload');
 	}
 
 	/**

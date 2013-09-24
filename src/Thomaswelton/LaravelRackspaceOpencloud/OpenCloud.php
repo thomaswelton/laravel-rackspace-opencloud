@@ -53,6 +53,15 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		}
 	}
 
+    public function exisits($container, $file){
+        $container = $this->getContainer($container);
+        try{
+            return $container->DataObject($file);
+        }catch(\OpenCloud\Common\Exceptions\ObjFetchError $e){
+            return false;
+        }
+    }
+
 	public function createDataObject($container, $filePath, $fileName = null)
 	{
 		if(is_null($fileName)){
