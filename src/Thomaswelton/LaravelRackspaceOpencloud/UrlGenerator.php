@@ -16,7 +16,6 @@ class UrlGenerator extends LaravelGenerator{
     public function asset($path, $secure = null)
     {
         // Start looking for a CDN json file
-        $secure = true;
         $checkDir = dirname(public_path() . '/' . $path);
 
         // Look up through the directories looking for a
