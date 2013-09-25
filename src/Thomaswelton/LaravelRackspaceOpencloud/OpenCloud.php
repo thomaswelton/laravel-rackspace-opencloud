@@ -28,8 +28,9 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		$container = $this->getObjectStore()->Container();
 		$container->Create(array('name' => $name ));
 
-		// publish it to the CDN
-		$container->PublishToCDN();
+		// publish it to the CDN with 4 year TTL
+		$ttl = 60 * 60 * 24 * 365 * 4;
+		$container->PublishToCDN($ttl);
 
 		return $container;
 	}
@@ -85,8 +86,12 @@ class OpenCloud extends \OpenCloud\Rackspace{
 
 		$container = $this->getContainer($container);
 
+		$headers = array(
+			"Access-Control-Allow-Origin" => "*"
+		);
+
 		$object = $container->DataObject();
-		$object->Create(array('name'=> $fileName), $filePath, $extract);
+		$object->Create(array('name'=> $fileName, 'extra_headers' => $headers), $filePath, $extract);
 
 		return $object;
 	}
