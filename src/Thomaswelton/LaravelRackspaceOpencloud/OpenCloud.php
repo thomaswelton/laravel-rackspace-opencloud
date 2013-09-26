@@ -61,12 +61,14 @@ class OpenCloud extends \OpenCloud\Rackspace{
     // $dirTrim - Path segments to trim from the dir path when on the CDN
     public function uploadDir($container, $dir, $cdnDir = '', $dirTrim = ''){
         $files = File::allFiles($dir);
-        $temp_file = tempnam(sys_get_temp_dir(), 'CDN');
+        $temp_file = tempnam(storage_path(), 'CDN');
 
         $tar = new Archive_Tar($temp_file, 'gz');
         $tar->createModify($files, '', $dirTrim);
 
-        return $this->createDataObject($container, $temp_file, $cdnDir, 'tar.gz');
+        $object = $this->createDataObject($container, $temp_file, $cdnDir, 'tar.gz');
+
+        File::delete($temp_file);
     }
 
     public function exisits($container, $file){
