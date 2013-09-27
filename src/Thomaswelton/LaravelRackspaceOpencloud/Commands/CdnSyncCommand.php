@@ -39,17 +39,16 @@ class CdnSyncCommand extends Command {
 	 * @return void
 	 */
 	public function fire()
-	{
-        $startTime = microtime(true);
-        $this->info('Start Time: ' . $startTime);
-
+    {
         $opencloud = \App::make('open-cloud');
         $container_name = \Config::get('laravel-rackspace-opencloud::container');
+        $container = $opencloud->getContainer($container_name);
 
         // Get directory or file path
-		$path = $this->argument('path');
+        $path = base_path() . '/' . $this->argument('path');
+        $path_trim = base_path() . '/' . $this->option('trim');
 
-        $this->info('Uploading: ' . $path);
+        $this->info('Syncing to CDN: ' . $path);
 
         // Exit if not exists
         if(!File::isDirectory($path)){
@@ -72,9 +71,8 @@ class CdnSyncCommand extends Command {
         $fileCount = count($files);
         $this->info('Found ' . $fileCount . ' ' . Str::plural('file', $fileCount));
 
-        $cdnFile = $opencloud->uploadDir($container_name, $path, $directoryHash, $this->option('trim'));
+        $cdnFile = $opencloud->uploadDir($container_name, $path, $directoryHash, $path_trim);
 
-        $container = $opencloud->getContainer($container_name);
         $cdnJsonArray = array(
             'http' => $container->PublicURL(),
             'https' => $container->SSLURI(),
@@ -83,11 +81,7 @@ class CdnSyncCommand extends Command {
         );
 
         File::put($path . '.cdn.json', json_encode($cdnJsonArray));
-
-        $endTime = microtime(true);
-        $this->info('End Time: ' . $endTime);
-        $this->info('Time taken ' . ($endTime - $startTime));
-	}
+    }
 
 	/**
 	 * Get the console command arguments.

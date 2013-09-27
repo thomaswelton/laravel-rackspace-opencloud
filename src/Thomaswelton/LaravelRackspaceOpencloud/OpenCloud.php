@@ -2,7 +2,7 @@
 
 use \Config;
 use \File;
-use Archive_Tar;
+use Alchemy\Zippy\Zippy;
 
 class OpenCloud extends \OpenCloud\Rackspace{
 
@@ -60,15 +60,22 @@ class OpenCloud extends \OpenCloud\Rackspace{
     // $cdnDir - Directory on the CDN to upload to
     // $dirTrim - Path segments to trim from the dir path when on the CDN
     public function uploadDir($container, $dir, $cdnDir = '', $dirTrim = ''){
-        $files = File::allFiles($dir);
-        $temp_file = tempnam(storage_path(), 'CDN');
+        $temp_file =  storage_path() . '/CDN-' . time() . '.tar.gz';
 
-        $tar = new Archive_Tar($temp_file, 'gz');
-        $tar->createModify($files, '', $dirTrim);
+        $zip_dir_name = (0 === strpos($dir, $dirTrim)) ? substr($dir, strlen($dirTrim) + 1) : $dir;
 
-        $object = $this->createDataObject($container, $temp_file, $cdnDir, 'tar.gz');
+        $zippy = Zippy::load();
+        // creates an archive.zip that contains a directory "folder" that contains
+        // files contained in "/path/to/directory" recursively
+        $archive = $zippy->create($temp_file, array(
+            $cdnDir . '/' . $zip_dir_name => $dir
+        ), true);
+
+        $cdnFile = $this->createDataObject($container, $temp_file, '/', 'tar.gz');
 
         File::delete($temp_file);
+
+        return $cdnFile;
     }
 
     public function exisits($container, $file){
