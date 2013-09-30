@@ -31,8 +31,8 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		$container = $this->getObjectStore()->Container();
 		$container->Create(array('name' => $name ));
 
-		// publish it to the CDN with 4 year TTL
-		$ttl = 60 * 60 * 24 * 365 * 4;
+		// publish it to the CDN with 1 year TTL
+		$ttl = 60 * 60 * 24 * 365;
 		$container->PublishToCDN($ttl);
 
 		return $container;
