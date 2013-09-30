@@ -4,6 +4,9 @@ use \Config;
 use \File;
 use Alchemy\Zippy\Zippy;
 
+// 5 minutes
+define('RAXSDK_TIMEOUT', 300);
+
 class OpenCloud extends \OpenCloud\Rackspace{
 
 	public $region = null;
