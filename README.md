@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/thomaswelton/laravel-rackspace-opencloud.png?branch=master)](https://travis-ci.org/thomaswelton/laravel-rackspace-opencloud)
 [![Latest Stable Version](https://poser.pugx.org/thomaswelton/laravel-rackspace-opencloud/v/stable.png)](https://packagist.org/packages/thomaswelton/laravel-rackspace-opencloud)
 [![Total Downloads](https://poser.pugx.org/thomaswelton/laravel-rackspace-opencloud/downloads.png)](https://packagist.org/packages/thomaswelton/laravel-rackspace-opencloud)
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/thomaswelton/laravel-rackspace-opencloud/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
@@ -35,6 +34,32 @@ php artisan config:publish thomaswelton/laravel-rackspace-opencloud
 Edit the config file to include your username, api key and region.
 
 # Usage
+
+## Artisan Commands
+
+Upload files via the command line.
+
+Synchronize a whole directory. Copies all files to /public/assets
+```
+php artisan cdn:sync public/assets
+```
+
+Copies all files to /assets trimming 'public' from the path
+```
+php artisan cdn:sync public/assets --trim=public
+```
+
+The sync command will save a file adjacent to the synchronized directory. It contains the http and https urls for your container. Along with a md5 hash of the directory.
+In this way when a file changes inside a directory and is reuploaded you get a new cache busted URL.
+
+If you are using the URL helper then it will return a CDN url for a file, if it finds a *.cdn.json file adjacent to one of it's parent directories.
+
+```
+URL::asset('assets/image.jpg');
+```
+
+You should be able to run `php artisan cdn:sync public/assets --trim=public` before or during a deployment and once complete all files being called by `URL::asset()` will return a CDN resource
+
 
 ## Upload to CDN
 
