@@ -2,6 +2,10 @@
 
 use \Config;
 use \File;
+use Alchemy\Zippy\Zippy;
+
+// 5 minutes
+define('RAXSDK_TIMEOUT', 300);
 
 class OpenCloud extends \OpenCloud\Rackspace{
 
@@ -27,8 +31,9 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		$container = $this->getObjectStore()->Container();
 		$container->Create(array('name' => $name ));
 
-		// publish it to the CDN
-		$container->PublishToCDN();
+		// publish it to the CDN with 1 year TTL
+		$ttl = 60 * 60 * 24 * 365;
+		$container->PublishToCDN($ttl);
 
 		return $container;
 	}
@@ -53,7 +58,39 @@ class OpenCloud extends \OpenCloud\Rackspace{
 		}
 	}
 
-	public function createDataObject($container, $filePath, $fileName = null)
+    // Create and archive and upload a whole directory
+    // $dir - Directory to upload
+    // $cdnDir - Directory on the CDN to upload to
+    // $dirTrim - Path segments to trim from the dir path when on the CDN
+    public function uploadDir($container, $dir, $cdnDir = '', $dirTrim = ''){
+        $temp_file =  storage_path() . '/CDN-' . time() . '.tar.gz';
+
+        $zip_dir_name = (0 === strpos($dir, $dirTrim)) ? substr($dir, strlen($dirTrim) + 1) : $dir;
+
+        $zippy = Zippy::load();
+        // creates an archive.zip that contains a directory "folder" that contains
+        // files contained in "/path/to/directory" recursively
+        $archive = $zippy->create($temp_file, array(
+            $cdnDir . '/' . $zip_dir_name => $dir
+        ), true);
+
+        $cdnFile = $this->createDataObject($container, $temp_file, '/', 'tar.gz');
+
+        File::delete($temp_file);
+
+        return $cdnFile;
+    }
+
+    public function exisits($container, $file){
+        $container = $this->getContainer($container);
+        try{
+            return $container->DataObject($file);
+        }catch(\OpenCloud\Common\Exceptions\ObjFetchError $e){
+            return false;
+        }
+    }
+
+	public function createDataObject($container, $filePath, $fileName = null, $extract = null)
 	{
 		if(is_null($fileName)){
 			$fileName = basename($filePath);
@@ -61,8 +98,12 @@ class OpenCloud extends \OpenCloud\Rackspace{
 
 		$container = $this->getContainer($container);
 
+		$headers = array(
+			"Access-Control-Allow-Origin" => "*"
+		);
+
 		$object = $container->DataObject();
-		$object->Create(array('name'=> $fileName), $filePath);
+		$object->Create(array('name'=> $fileName, 'extra_headers' => $headers), $filePath, $extract);
 
 		return $object;
 	}
