@@ -39,10 +39,12 @@ class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
             return new Commands\CdnSyncCommand;
         });
 
-        $this->app->bind('url', function()
+        $routes = $this->app['router']->getRoutes();
+        $request = $this->app['request'];
+
+        $this->app->bind('url', function() use ($routes, $request)
         {
-            $routes = $this->app['router']->getRoutes();
-            return new UrlGenerator($routes, $this->app['request']);
+            return new UrlGenerator($routes, $request);
         });
 
         $this->commands('cdn.sync');
