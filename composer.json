@@ -9,7 +9,7 @@
     ]
     , "require": {
           "php": ">=5.3.0"
-        , "illuminate/support": "4.0.x"
+        , "illuminate/support": "4.x"
         , "rackspace/php-opencloud": "1.5.*"
         , "alchemy/zippy": "0.1.0"
     }
