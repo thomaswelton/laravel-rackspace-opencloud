@@ -81,7 +81,7 @@ class OpenCloud extends \OpenCloud\Rackspace{
         return $cdnFile;
     }
 
-    public function exisits($container, $file){
+    public function exists($container, $file){
         $container = $this->getContainer($container);
         try{
             return $container->DataObject($file);
@@ -107,5 +107,17 @@ class OpenCloud extends \OpenCloud\Rackspace{
 
 		return $object;
 	}
+  
+  public function delete($container, $file){
+      $container = $this->getContainer($container);
+      //if file is fed with full url, shorten to last component
+        $file = explode('/',$file);
+        $file = end($file);
+      try{
+          return $container->DataObject($file)->delete();
+      }catch(\OpenCloud\Common\Exceptions\ObjFetchError $e){
+          return $e;
+      }
+  }
 }
 
