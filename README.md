@@ -85,3 +85,8 @@ Route::post('/upload', function()
 	return Redirect::to('/upload');
 });
 ```
+## Delete from CDN
+
+```php
+OpenCloud::delete($container, $file)
+```
