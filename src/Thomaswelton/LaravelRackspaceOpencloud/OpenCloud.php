@@ -81,7 +81,7 @@ class OpenCloud extends \OpenCloud\Rackspace{
         return $cdnFile;
     }
 
-    public function exisits($container, $file){
+    public function exists($container, $file){
         $container = $this->getContainer($container);
         try{
             return $container->DataObject($file);
