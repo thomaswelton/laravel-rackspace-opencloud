@@ -21,6 +21,10 @@ class UrlGenerator extends LaravelGenerator{
         // Look up through the directories looking for a
         // CDN json file
         while($checkDir !== public_path()){
+        
+            if ($checkDir[strlen($checkDir) - 1] !== DIRECTORY_SEPARATOR)
+            	$checkDir .= DIRECTORY_SEPARATOR;
+        	
             $cdnJsonPath = $checkDir . '.cdn.json';
 
             if(File::isFile($cdnJsonPath)){
