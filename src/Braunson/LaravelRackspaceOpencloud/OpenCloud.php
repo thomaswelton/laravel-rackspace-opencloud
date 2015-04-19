@@ -1,4 +1,4 @@
-<?php namespace Thomaswelton\LaravelRackspaceOpencloud;
+<?php namespace Braunson\LaravelRackspaceOpencloud;
 
 use \Config;
 use \File;

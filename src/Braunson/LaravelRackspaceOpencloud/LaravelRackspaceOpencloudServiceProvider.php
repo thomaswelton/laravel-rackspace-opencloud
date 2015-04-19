@@ -1,7 +1,7 @@
-<?php namespace Thomaswelton\LaravelRackspaceOpencloud;
+<?php namespace Braunson\LaravelRackspaceOpencloud;
 
 use Illuminate\Support\ServiceProvider;
-use Thomaswelton\LaravelRackspaceOpencloud\Commands;
+use Braunson\LaravelRackspaceOpencloud\Commands;
 
 class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
 
@@ -19,7 +19,7 @@ class LaravelRackspaceOpencloudServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('thomaswelton/laravel-rackspace-opencloud');
+		$this->package('braunson/laravel-rackspace-opencloud');
 	}
 
 	/**
