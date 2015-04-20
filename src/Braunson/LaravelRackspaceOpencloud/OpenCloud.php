@@ -1,4 +1,4 @@
-<?php namespace Thomaswelton\LaravelRackspaceOpencloud;
+<?php namespace Braunson\LaravelRackspaceOpencloud;
 
 use \Config;
 use \File;
@@ -23,7 +23,7 @@ class OpenCloud extends \OpenCloud\Rackspace{
 	}
 
 	public function getObjectStore(){
-		return $this->ObjectStore('cloudFiles', $this->region);
+		return $this->ObjectStore('cloudFiles', $this->region, $this->urlType);
 	}
 
 	public function getContainer($name){

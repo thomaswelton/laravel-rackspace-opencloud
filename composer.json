@@ -1,7 +1,11 @@
 {
-      "name": "thomaswelton/laravel-rackspace-opencloud"
-    , "description": ""
+      "name": "braunson/laravel-rackspace-cdn"
+    , "description": "Updated version of ThomasWelton's because that repo seems to be inactive"
     , "authors": [
+        {
+            "name": "Braunson Yager"
+            , "email": "braunson@geekybeaver.ca"
+        },
         {
             "name": "ThomasWelton"
             , "email": "thomaswelton@me.com"
@@ -18,7 +22,7 @@
             "src/migrations"
         ]
         , "psr-0": {
-            "Thomaswelton\\LaravelRackspaceOpencloud": "src/"
+            "Braunson\\LaravelRackspaceOpencloud": "src/"
         }
     }
     , "minimum-stability": "dev"
