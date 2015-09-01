@@ -63,6 +63,8 @@ You should be able to run `php artisan cdn:sync public/assets --trim=public` bef
 
 ## Upload to CDN
 
+Using this method will make the container public, even if previously set as private. This is a known issue yet to be addressed.
+
 ```php
 OpenCloud::upload($container, $file, $name = null)
 ```
