@@ -5,7 +5,7 @@ use \File;
 use Alchemy\Zippy\Zippy;
 
 // 5 minutes
-define('RAXSDK_TIMEOUT', 300);
+define('RAXSDK_TIMEOUT', 600);
 
 class OpenCloud extends \OpenCloud\Rackspace{
 
