@@ -4,10 +4,7 @@ use \Config;
 use \File;
 use Alchemy\Zippy\Zippy;
 
-// default 5 minutes if not already defined
-if(!defined('RAXSDK_TIMEOUT')){
-    define('RAXSDK_TIMEOUT', 300);
-}
+define('RAXSDK_TIMEOUT', Config::get('laravel-rackspace-opencloud::raxsdk_timeout'));
 
 class OpenCloud extends \OpenCloud\Rackspace{
 
